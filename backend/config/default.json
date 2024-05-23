@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://User:Wm7ky99lN7Oz9qXK@cluster0.mb4ln.mongodb.net/HomeMed?retryWrites=true&w=majority",
-    "jwtSecret": "bb320a3d4e1bcbf26ea3fdbe176a435b646bad14b889014635f50f215f99083f27dc427e9c41d200895f2a080a3caf91d89603e01910d667232127ffd4d811b4"
-}

@@ -10,6 +10,8 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 const mailer = require('../../misc/mailer');
 const transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 // @route  GET api/auth
 // @desc  Test route
@@ -89,7 +91,7 @@ if(!isMatch) {
 
         jwt.sign(
             payload,
-            config.get('jwtSecret'),
+            process.env.JWTSECRET,
             {expiresIn: 360000},
             (err,token) => {
             if(err) throw err;
