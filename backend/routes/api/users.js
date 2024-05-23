@@ -9,6 +9,7 @@ const User = require('../../models/User');
 const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 const mailer = require('../../misc/mailer');
+const levenshtein = require('fast-levenshtein');
 const transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
 //const Profile = require('../../model/Profile');
@@ -325,5 +326,36 @@ router.get('/:id', async (req, res) => {
         res.status(500).send('server error');
     }
 });
+
+// @route  GET api/users/praticien/:lastName/:firstName
+// @desc  get praticien User By name
+// @access Private
+// router.get('/praticien/:lastName/:firstName', async (req, res) => {
+//   const { lastName, firstName } = req.params;
+
+//   try {
+//     const users = await User.find({ role: 'praticien' });
+
+//     if (users) {
+//       const filteredUsers = users
+//         .map(user => ({
+//           ...user.toObject(),
+//           levenshteinDistance: levenshtein.get(
+//             user.lastName + ' ' + user.firstName,
+//             lastName + ' ' + firstName
+//           )
+//         }))
+//         .filter(user => user.levenshteinDistance < 3)
+//         .sort((a, b) => a.levenshteinDistance - b.levenshteinDistance);
+
+//       return res.json(filteredUsers);
+//     } else {
+//       return res.json({ err: 'not found' });
+//     }
+//   } catch (error) {
+//     console.error(error.message);
+//     res.status(500).send('server error');
+//   }
+// });
 
 module.exports = router;
