@@ -31,7 +31,7 @@ router.post('/', [
     // if (! errors.isEmpty()) {
     //     return res.status(400).json({errors: errors.array()});
     // }
-    const {firstName,lastName, email, password, role,sexe,birthDate} = req.body;
+    const {firstName, lastName, email, password, role, sexe, birthDate} = req.body;
     try {
         //console.log("tesssssst") // see if user exists
         let user = await User.findOne({email});
@@ -325,6 +325,26 @@ router.get('/:id', async (req, res) => {
         console.error(error.message);
         res.status(500).send('server error');
     }
+});
+
+// @route  POST api/users/check
+// @desc   Check if user exists
+// @access Public
+router.post('/check', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return res.json({ isUserExist: true });
+    } else {
+      return res.json({ isUserExist: false });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
 });
 
 // // @route  GET api/users/praticien/:lastName/:firstName

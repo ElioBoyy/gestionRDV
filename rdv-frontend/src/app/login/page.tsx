@@ -32,7 +32,7 @@ export default function Login() {
                 if (token) {
                     localStorage.setItem('token', token);
                 }
-                // console.log(localStorage.getItem('token'));
+                console.log(localStorage.getItem('token'));
         } catch (error) {
             console.error('Error during authentication:', error);
         }
@@ -40,48 +40,47 @@ export default function Login() {
 
     return (
         <>
-            { token !== '' ? window.location.href = "/account" : (
-                <div className="absolute w-full h-full">
-                    <div className="relative left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] flex flex-col gap-10">
-                        <Input
-                            type="email"
-                            label="Email"
-                            placeholder="you@example.com"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            endContent={
-                                <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                            }
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <Input
-                            labelPlacement="outside"
-                            label="Password"
-                            variant="bordered"
-                            placeholder="Entrez un mot de passe"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            endContent={
-                                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                                {isVisible ? (
-                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                ) : (
-                                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                )}
-                                </button>
-                            }
-                            type={isVisible ? "text" : "password"}
-                            className="max-w-xs"
-                        />
-                        <div className="flex flex-row justify-between">
-                            <Divider orientation="vertical" className="h-[40px]" />
-                            <Button className="relative w-1/2" variant="bordered" onClick={connexionSubmit}>Se connecter</Button>
-                            <Divider orientation="vertical" className="h-[40px]" />
-                        </div>
+            <div className="absolute w-full h-full z-0">
+                <div className="relative left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] flex flex-col gap-10">
+                    <h1 className="underline text-xl font-semibold">Connexion</h1>
+                    <Input
+                        type="email"
+                        label="Email"
+                        placeholder="you@example.com"
+                        variant="bordered"
+                        labelPlacement="outside"
+                        endContent={
+                            <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        }
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Input
+                        labelPlacement="outside"
+                        label="Password"
+                        variant="bordered"
+                        placeholder="Entrez un mot de passe"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                            {isVisible ? (
+                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                            ) : (
+                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                            )}
+                            </button>
+                        }
+                        type={isVisible ? "text" : "password"}
+                        className="max-w-xs"
+                    />
+                    <div className="flex flex-row justify-between">
+                        <Divider orientation="vertical" className="h-[40px]" />
+                        <Button className="relative" variant="bordered" onClick={connexionSubmit}>Se connecter</Button>
+                        <Divider orientation="vertical" className="h-[40px]" />
                     </div>
                 </div>
-            )}
+            </div>
         </>
     );
 }
