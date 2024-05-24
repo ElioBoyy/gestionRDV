@@ -62,7 +62,7 @@ export default function Header() {
                                         <Divider orientation="vertical" style={{height: '40px'}} />
                                         <Button onClick={(e: any) => window.location.href = "/prendre_rdv"}>Prendre un Rendez-Vous</Button>
                                         <Divider orientation="vertical" style={{height: '40px'}} />
-                                        <Button onClick={(e: any) => window.location.href = "/conversations"}>Conversations</Button>
+                                        <Button onClick={(e: any) => window.location.href = "/mes_conversations"}>Conversations</Button>
                                         <Divider orientation="vertical" style={{height: '40px'}} />
                                         <Button onClick={(e: any) => window.location.href = "/user_profile"}>Profil</Button>
                                     </ButtonGroup>
