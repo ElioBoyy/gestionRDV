@@ -327,10 +327,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// @route  GET api/users/praticien/:lastName/:firstName
-// @desc  get praticien User By name
-// @access Private
-// router.get('/praticien/:lastName/:firstName', async (req, res) => {
+// // @route  GET api/users/praticien/:lastName/:firstName
+// // @desc  get praticien User By name
+// // @access Private
+// router.get('/praticien/:lastName-:firstName', async (req, res) => {
 //   const { lastName, firstName } = req.params;
 
 //   try {
@@ -340,10 +340,7 @@ router.get('/:id', async (req, res) => {
 //       const filteredUsers = users
 //         .map(user => ({
 //           ...user.toObject(),
-//           levenshteinDistance: levenshtein.get(
-//             user.lastName + ' ' + user.firstName,
-//             lastName + ' ' + firstName
-//           )
+//           levenshteinDistance: levenshtein.get(user.lastName, lastName)
 //         }))
 //         .filter(user => user.levenshteinDistance < 3)
 //         .sort((a, b) => a.levenshteinDistance - b.levenshteinDistance);
