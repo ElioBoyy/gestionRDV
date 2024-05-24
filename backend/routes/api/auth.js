@@ -110,24 +110,22 @@ if(!isMatch) {
 // @route    POST api/auth
 // @desc     Authenticate  user & get token
 // @access   Public
-router.post('/logout',auth, async(req, res) => {
-
-try {
-    console.log(req.user)
-    if(req.user){
-        req.user = null;
+router.post('/logout', auth, async(req, res) => {
+    try {
         console.log(req.user)
+        if(req.user){
+            req.user = null;
+            console.log(req.user)
 
+        }
+        res.json({ updated :true , Message: "logout"});
+
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send('server  error');
     }
-    res.json({ updated :true , Message: "logout"});
-
-}catch(err){
-    console.error(err.message);
-    res.status(500).send('server  error');
-
-}
-
 });
+
 router.put('/updatePassword',auth ,async(req, res) => {
     const { newPass, oldPass} = req.body;
     let user = await User.findById(req.user.id);

@@ -2,14 +2,15 @@
 
 import { Divider } from "@nextui-org/divider";
 import { MailIcon } from "../../../public/MailIcon";
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../../public/EyeIcons";
-import { Autocomplete, AutocompleteItem, Button, Card, CardBody, DatePicker, DateValue, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tab, Tabs, Tooltip, useDisclosure } from "@nextui-org/react";
+import { Button, Card, CardBody, DatePicker, DateValue, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tab, Tabs, Tooltip, useDisclosure } from "@nextui-org/react";
 import { queryMaker } from "../../../utils/dbConnection";
-import {useDateFormatter} from "@react-aria/i18n";
+import Alert from '@mui/material/Alert';
+import { Loader } from "@/components/loader/Loader";
 
 export default function Login() {
-    const [isVisible, setIsVisible ] = useState(false);
+    const [ isVisible, setIsVisible ] = useState(false);
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ token, setToken ] = useState<string | null>(null);
@@ -20,38 +21,43 @@ export default function Login() {
     const [ userSexe, setUserSexe ] = useState('');
     const [ confirmEmail, setConfirmEmail ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
+    const [ isMounted, setIsMounted ] = useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
-    
-    const sexe = [
-        {
-            label:"Homme",
-            value: "homme"
-        },
-        {
-            label:"Femme",
-            value: "Femme"
-        }
-    ];
 
     useEffect(() => {
-        try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                setToken(token);
+        const getTokenFromLocalStorage = () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    setToken(token);
+                    setIsMounted(true);
+                }
+            } catch (error) {
+                console.error('Error while getting localStorage`s token:', error);
+                setIsMounted(true);
             }
-        } catch (error) {
-            console.error('Error while getting localStorage`s token:', error);
-        }
-    }, [token]);
+        };
+
+        getTokenFromLocalStorage();
+    }, []);
 
     const registerSubmit = async () => {
         try {
-            await queryMaker('api/users', 'POST', JSON.parse(JSON.stringify({email: email, password: password})))
-                ?.then((res) => setToken(res.data.token));
-                if (token) {
-                    localStorage.setItem('token', token);
-                }
-                console.log(localStorage.getItem('token'));
+            await queryMaker('api/users', 'POST', 
+                JSON.parse(JSON.stringify(
+                    {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        password: password,
+                        birthDate: new Date(bDay?.toString() || ''),
+                        activated: true,
+                        role: 'user',
+                        sexe: userSexe
+                    }
+                )))
+                ?.then((res) => { window.location.href = '/user_profile', setToken(res.data.token), localStorage.setItem('token', res.data.token) });
+                // console.log(localStorage.getItem('token'));
         } catch (error) {
             console.error('Error during authentication:', error);
         }
@@ -59,8 +65,12 @@ export default function Login() {
 
     const isEmailAlreadyUsed = async (email: string) => {
         try {
-            await queryMaker('api/users/all', 'GET', null)?.then((res) => {
-                console.log(res.data);
+            await queryMaker('api/users/check', 'POST', JSON.parse(JSON.stringify({ email: email })))?.then((res) => {
+                if (res.data.isUserExist === true) {
+                    alert('Email déjà utilisé');
+                } else {
+                    registerSubmit();
+                }
             });
         } catch (error) {
             console.error('Error while checking email:', error);
@@ -72,7 +82,6 @@ export default function Login() {
         if (date === undefined) {
             return false;
         }
-        const currentDate = new Date();
 
         const dateString = new Date(date.toString());
 
@@ -142,7 +151,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-
+            
             <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
                 <ModalContent>
                 {(onClose) => (
@@ -270,7 +279,7 @@ export default function Login() {
                                 </Tooltip>
                             ) : 
                             confirmEmail === email && confirmPassword === password ? (
-                                <Button color="default" onPress={onClose} onClick={(e) => (isEmailAlreadyUsed(email))}>
+                                <Button color="default" onPress={onClose} onClick={(e) => {(isEmailAlreadyUsed(email))}}>
                                     Créer un compte
                                 </Button>
                             ) : (

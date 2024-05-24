@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const bcrypt = require('bcryptjs');
 const {check, validationResult} = require('express-validator');
 const User = require('../../models/User');
@@ -11,6 +10,8 @@ const randomstring = require('randomstring');
 const mailer = require('../../misc/mailer');
 const levenshtein = require('fast-levenshtein');
 const transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 //const Profile = require('../../model/Profile');
 // @route    POST api/users
@@ -62,6 +63,8 @@ router.post('/', [
         user.secretToken = secretToken;
         await user.save();
         // send email
+        
+        console.log("passed1")
 
 //email template
 const html=`
@@ -265,11 +268,8 @@ Please verify your account!              </td>
 
 `;
 
-
-        
-
-
-        await mailer.sendMail('labes.assitance@gmail.com', user.email, 'please verify your account', html)
+        // this is supposed to send an email to the user - it doesn't work ans make the post crash
+        //await mailer.sendMail('labes.assitance@gmail.com', user.email, 'please verify your account', html)
 
         // return json webtoken
         const payload = {
@@ -279,7 +279,7 @@ Please verify your account!              </td>
             }
         }
 
-        jwt.sign(payload, config.get('jwtSecret'), {
+        jwt.sign(payload, process.env.JWTSECRET, {
             expiresIn: 360000
         }, (err, token) => {
             if (err) 
