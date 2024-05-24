@@ -19,7 +19,7 @@ export default function Header() {
             {!isWindowLoaded ? (
                 <Loader />
             ) : (
-                <header className="fixed top-[20px] left-1/2 -translate-x-1/2 h-[57px]" style={{width: `${windowWidth && windowWidth < 1240 ? windowWidth - 40 + 'px' : '1200px'}`}}>
+                <header className="fixed top-[20px] left-1/2 -translate-x-1/2 h-[57px] z-50" style={{width: `${windowWidth && windowWidth < 1240 ? windowWidth - 40 + 'px' : '1200px'}`}}>
                     <Card>
                         <CardBody className="flex flex-row justify-between items-center px-6">
                             <div className="flex items-center gap-5">
