@@ -58,6 +58,7 @@ export default function Login() {
                 )))
                 ?.then((res) => { window.location.href = '/user_profile', setToken(res.data.token), localStorage.setItem('token', res.data.token) });
                 // console.log(localStorage.getItem('token'));
+
         } catch (error) {
             console.error('Error during authentication:', error);
         }

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../../public/EyeIcons";
 import { Button, Input } from "@nextui-org/react";
 import { queryMaker } from "../../../utils/dbConnection";
-import { Loader } from "@/components/loader/Loader";
 
 export default function Login() {
     const [ isVisible, setIsVisible ] = useState(false);

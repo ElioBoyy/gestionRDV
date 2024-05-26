@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Switch } from "@nextui-org/switch";
-import { MoonIcon } from "../../public/MoonIcon";
-import { SunIcon } from "../../public/SunIcon";
+import { MoonIcon } from "../../../public/MoonIcon";
+import { SunIcon } from "../../../public/SunIcon";
 
 const ThemeSwitch = () => {
     const [theme, setTheme] = useState("light");

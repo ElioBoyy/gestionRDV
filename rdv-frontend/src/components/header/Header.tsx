@@ -1,6 +1,6 @@
 'use client'
 
-import ThemeSwitch from "@/components/ThemeSwitch";
+import ThemeSwitch from "@/components/theme/ThemeSwitch";
 import { Button, ButtonGroup, Card, CardBody, Divider, Input } from "@nextui-org/react";
 import useWindowWidth from "../useWindowWidth";
 import { useEffect, useState } from "react";
